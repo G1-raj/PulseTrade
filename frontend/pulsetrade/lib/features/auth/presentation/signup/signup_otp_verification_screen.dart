@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:pulsetrade/core/constants/constant.dart';
 import 'package:pulsetrade/core/theme/theme.dart';
 import 'package:pulsetrade/core/widgets/app_button/app_button.dart';
+import 'package:pulsetrade/core/widgets/otp_field/otp_field.dart';
 
 class SignupOtpVerificationScreen extends StatefulWidget {
   final String email;
@@ -186,78 +186,3 @@ class _SignupOtpVerificationScreenState extends State<SignupOtpVerificationScree
   }
 }
 
-class OtpField extends StatefulWidget {
-  final Function(String) onChanged;
-  final double width;
-  const OtpField(
-    {
-      super.key, 
-      required this.onChanged,
-      required this.width
-    }
-  );
-
-  @override
-  State<OtpField> createState() => _OtpFieldState();
-}
-
-class _OtpFieldState extends State<OtpField> {
-
-  final List<TextEditingController> controllers = List.generate(6, (_) =>TextEditingController());
-  final List<FocusNode> focusNodes = List.generate(6, (_) => FocusNode());
-
-  @override
-  void dispose() {
-    
-    for(final c in controllers) {
-      c.dispose();
-    }
-
-    for(final f in focusNodes) {
-      f.dispose();
-    }
-
-
-    super.dispose();
-  }
-
-  void _onChanged(int index, String value) {
-    if (value.isNotEmpty && index < 5) {
-      focusNodes[index + 1].requestFocus();
-    }
-
-    if (value.isEmpty && index > 0) {
-      focusNodes[index - 1].requestFocus();
-    }
-
-    final otp = controllers.map((c) => c.text).join();
-    widget.onChanged(otp);
-  }
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: List.generate(6, (index) {
-        return SizedBox(
-           width: widget.width * 0.12,
-           child: TextField(
-            controller: controllers[index],
-            focusNode: focusNodes[index],
-            keyboardType: TextInputType.number,
-            textAlign: TextAlign.center,
-            maxLength: 1,
-            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-
-            decoration: InputDecoration(
-              counterText: ""
-            ),
-
-            onChanged: (value) => _onChanged(index, value),
-           ),
-        );
-      }),
-    );
-  }
-}
