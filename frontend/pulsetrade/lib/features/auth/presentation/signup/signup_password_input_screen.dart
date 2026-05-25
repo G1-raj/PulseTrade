@@ -159,6 +159,7 @@ class SignupPasswordInputScreen extends StatelessWidget {
                   width: width,
                   height: height,
                   onPress: () {},
+                  buttonText: "Create Account",
                 ),
           
                 const SizedBox(height: 18,)

@@ -5,12 +5,14 @@ class AppButton extends StatelessWidget {
   final double width;
   final double height;
   final VoidCallback? onPress;
+  final String buttonText;
   const AppButton(
     {
       super.key,
       required this.width,
       required this.height,
-      this.onPress
+      this.onPress,
+      this.buttonText = ""
     }
   );
 
@@ -26,7 +28,7 @@ class AppButton extends StatelessWidget {
           backgroundColor: AppTheme.mainButtonColor,
           elevation: 3
         ),
-        child: Row(
+        child: buttonText == "" ? Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
@@ -35,12 +37,18 @@ class AppButton extends StatelessWidget {
                 fontWeight: FontWeight.w800,
                 fontSize: width * 0.05
               ),
-            ),
+            ) ,
     
             const SizedBox(width: 7,), 
             Icon(Icons.arrow_forward_rounded, size: width * 0.05,)
           ],
-        )
+        ) : Text(
+              buttonText,
+              style: TextStyle(
+                fontWeight: FontWeight.w800,
+                fontSize: width * 0.05
+              ),
+            ) 
       ),
     );
   }
